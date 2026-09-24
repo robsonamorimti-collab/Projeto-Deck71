@@ -1,10 +1,19 @@
-DECK71 v4.1 — IMAGEM CORRIGIDA
+DECK71 — SITE v5
 
-A imagem das cartas foi incorporada diretamente no index.html.
-Assim ela não depende da pasta assets e não ficará quebrada no Vercel.
+Versão construída com base no protótipo validado.
 
-ATUALIZAÇÃO:
-1. No GitHub, substitua o index.html antigo por este.
-2. Substitua/mantenha também vercel.json.
-3. Commit na main.
-4. Aguarde o novo deploy automático da Vercel.
+Inclui:
+- identidade visual e estrutura do protótipo;
+- cartas do hero sem recorte no hover;
+- Concierge conversacional com campo de mensagem e botão Enviar;
+- sugestões rápidas e histórico durante a sessão;
+- responsividade;
+- arquivo preparado para publicação na Vercel.
+
+IMPORTANTE:
+O Concierge desta versão é interativo, mas ainda utiliza lógica local no navegador.
+As conversas ainda não são persistidas em banco de dados e não há modelo de IA conectado.
+
+PUBLICAÇÃO:
+Substitua os arquivos do repositório GitHub pelos arquivos desta pasta,
+faça commit na branch main e aguarde o deploy automático da Vercel.
