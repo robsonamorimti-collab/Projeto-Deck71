@@ -65,11 +65,11 @@ async function aiReply(message, history){
   // Avoid duplicating current message if frontend already included it in history.
   if (!contents.length || contents[contents.length-1].parts[0].text !== message)
     contents.push({role:'user',parts:[{text:message}]});
-  const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+encodeURIComponent(key);
+  const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key='+encodeURIComponent(key);
   const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
     systemInstruction:{parts:[{text:SYSTEM}]},
     contents,
-    generationConfig:{temperature:0.35,maxOutputTokens:220}
+    generationConfig:{maxOutputTokens:220}
   })});
   if(!res.ok) throw new Error('Gemini: '+await res.text());
   const data=await res.json();
