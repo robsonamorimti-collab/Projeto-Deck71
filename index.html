@@ -261,7 +261,7 @@ footer{border-top:1px solid var(--linha);padding-block:26px 40px;color:var(--mut
       <input id="chat-input" type="text" autocomplete="off" placeholder="Digite o que sua empresa precisa..." aria-label="Mensagem para o Deck71 Concierge">
       <button class="chat-enviar" type="submit" aria-label="Enviar mensagem">Enviar</button>
     </form>
-    <div class="chat-status">Conversa de validação · ainda não gravada em banco</div>
+    <div class="chat-status">Concierge Deck71 · atendimento inteligente</div>
   </div>
 </div>
 
@@ -343,7 +343,7 @@ footer{border-top:1px solid var(--linha);padding-block:26px 40px;color:var(--mut
       <div class="canal"><div><span class="k">LinkedIn</span><span class="v" id="v-in">/in/robson-amorim-91b2b9280</span></div><button class="copiar" data-alvo="v-in">copiar</button></div>
     </div>
   </div>
-  <div class="nota" style="margin-top:20px">Validação atual: o Concierge já funciona de forma conversacional nesta página. As conversas ainda não são gravadas em banco; essa será a próxima camada da plataforma.</div>
+  <div class="nota" style="margin-top:20px">O Concierge entende a necessidade, conduz a conversa e registra o contexto para continuidade do atendimento.</div>
 </section>
 
 <footer>
@@ -440,65 +440,63 @@ document.querySelectorAll('.filtro').forEach(function(b){
   });
 });
 
-/* ---------- concierge conversacional ---------- */
+/* ---------- concierge real: API + IA + persistência ---------- */
 var chatMensagens = document.getElementById('chat-mensagens');
 var chatForm = document.getElementById('chat-form');
 var chatInput = document.getElementById('chat-input');
 var chatSugestoes = document.getElementById('chat-sugestoes');
-var conversa = { nome:'', empresa:'', necessidade:'', contato:'', historico:[] };
+var sessionId = localStorage.getItem('deck71_session_id') || crypto.randomUUID();
+localStorage.setItem('deck71_session_id', sessionId);
+var historico = [];
 
 function addMsg(tipo, texto){
   var m = el('div','msg ' + tipo, texto);
   chatMensagens.appendChild(m);
-  conversa.historico.push({tipo:tipo,texto:texto});
+  historico.push({role: tipo === 'user' ? 'user' : 'assistant', content:texto});
   chatMensagens.scrollTop = chatMensagens.scrollHeight;
 }
 function setSugestoes(lista){
   chatSugestoes.innerHTML = '';
-  lista.forEach(function(txt){
+  (lista || []).forEach(function(txt){
     var b = el('button','chat-chip',txt); b.type='button';
     b.addEventListener('click', function(){ enviarMensagem(txt); });
     chatSugestoes.appendChild(b);
   });
 }
-function respostaConcierge(txt){
-  var t = txt.toLowerCase();
-  if (/premia|meta|benef|recompensa|colaborador|funcion/.test(t)){
-    return 'Entendi. Para metas, reconhecimento e premiação, a Carta A · Reward é a especialidade mais próxima. Me conte como esse processo funciona hoje na sua empresa e onde está o maior trabalho manual.';
-  }
-  if (/vend|cliente|comercial|lead|whatsapp|atendimento/.test(t)){
-    return 'Entendi. Isso entra no campo comercial. A Deck71 pode organizar o processo e usar agentes para atendimento e execução. Onde vocês mais perdem oportunidades hoje: demora na resposta, acompanhamento dos leads ou organização da operação?';
-  }
-  if (/conte[uú]do|instagram|post|rede social|marketing/.test(t)){
-    return 'Isso se aproxima da especialidade de Content. Antes de indicar uma solução, quero entender o objetivo: gerar demanda, manter frequência de publicação ou transformar conteúdo em vendas?';
-  }
-  if (/agenda|agendamento|hor[aá]rio|barbear|sal[aã]o|cl[ií]nica/.test(t)){
-    return 'Faz sentido olhar para o Scheduler. Como vocês controlam agenda, confirmações e histórico dos clientes hoje?';
-  }
-  if (/oficina|ordem de servi|or[cç]amento|assist[eê]ncia/.test(t)){
-    return 'Esse cenário se aproxima do Service. Me diga o que mais escapa hoje: orçamento, andamento do serviço, peças/custos ou cobrança?';
-  }
-  if (/pre[cç]o|valor|quanto custa|contratar|proposta/.test(t)){
-    return 'Os valores dependem da especialidade e do processo. Posso primeiro entender o seu caso e direcionar a opção adequada. Qual é o principal resultado que você quer alcançar?';
-  }
-  if (/meu nome|sou o|me chamo/.test(t)){
-    return 'Prazer. Agora me conte o que você gostaria que uma equipe digital resolvesse no seu negócio.';
-  }
-  return 'Entendi. Quero evitar te empurrar uma solução genérica. Me conte um pouco mais: qual tarefa, processo ou resultado você gostaria de melhorar primeiro?';
+function setBusy(busy){
+  chatInput.disabled = busy;
+  chatForm.querySelector('button').disabled = busy;
+  chatForm.querySelector('button').textContent = busy ? '...' : 'Enviar';
 }
-function enviarMensagem(txt){
+async function enviarMensagem(txt){
   txt = (txt || '').trim();
   if (!txt) return;
   addMsg('user', txt);
   chatInput.value = '';
   setSugestoes([]);
-  window.setTimeout(function(){
-    addMsg('bot', respostaConcierge(txt));
-  }, 280);
+  setBusy(true);
+  try{
+    var resp = await fetch('/api/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        session_id: sessionId,
+        message: txt,
+        history: historico.slice(-12)
+      })
+    });
+    var data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Falha no Concierge');
+    addMsg('bot', data.reply);
+    setSugestoes(data.suggestions || []);
+  }catch(e){
+    addMsg('bot','Tive uma falha de conexão agora. Tente novamente em alguns instantes.');
+  }finally{
+    setBusy(false); chatInput.focus();
+  }
 }
 chatForm.addEventListener('submit', function(e){
-  e.preventDefault();
-  enviarMensagem(chatInput.value);
+  e.preventDefault(); enviarMensagem(chatInput.value);
 });
 addMsg('bot','Olá. Eu sou o Deck71 Concierge. Conte com suas palavras o que sua empresa precisa resolver ou melhorar.');
 setSugestoes(['Quero vender mais','Quero automatizar um processo','Quero melhorar a operação']);
