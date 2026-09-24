@@ -206,6 +206,75 @@ footer{border-top:1px solid var(--linha);padding-block:26px 40px;color:var(--mut
 .chat-enviar:hover{background:#FF7E4A}
 .chat-status{font:10.5px var(--mono);color:var(--muted2)}
 
+
+/* ===== Deck71 v6.3 — Concierge UX ===== */
+.concierge-card,
+.concierge-box,
+.chat-card {
+  overflow: hidden;
+}
+.chat-messages,
+#chatMessages,
+#chat-messages,
+.chat-body {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth;
+}
+.chat-message,
+.message,
+.msg,
+.bubble {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+.chat-message p,
+.message p,
+.msg p,
+.bubble p {
+  margin: 0;
+  white-space: pre-wrap !important;
+}
+#chatInput,
+.chat-input textarea,
+.chat-input input {
+  line-height: 1.35;
+}
+.deck71-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  opacity: .78;
+  font-size: 13px;
+}
+.deck71-thinking::after {
+  content: "•••";
+  letter-spacing: 3px;
+  animation: deck71Pulse 1.15s infinite;
+}
+@keyframes deck71Pulse {
+  0%,100% { opacity: .35; }
+  50% { opacity: 1; }
+}
+button:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+@media (min-width: 900px) {
+  .chat-messages,
+  #chatMessages,
+  #chat-messages,
+  .chat-body {
+    min-height: 360px;
+    max-height: 430px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -516,6 +585,75 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     if (alvo){ e.preventDefault(); alvo.scrollIntoView({behavior:'smooth', block:'start'}); }
   });
 });
+</script>
+
+
+<script>
+/* Deck71 v6.3 — UX patch: full bubbles, auto-scroll, thinking state,
+   Enter to send, Shift+Enter newline, duplicate-submit protection. */
+(function () {
+  const selectors = {
+    input: ['#chatInput','#messageInput','#conciergeInput','textarea[data-chat-input]','.chat-input textarea','.chat-input input','input[placeholder*="Digite"]'],
+    send: ['#sendButton','#sendBtn','button[data-send]','.chat-input button','button[type="submit"]'],
+    messages: ['#chatMessages','#chat-messages','.chat-messages','.messages','.chat-body']
+  };
+  const pick = arr => arr.map(s => document.querySelector(s)).find(Boolean);
+  const input = pick(selectors.input);
+  const send = pick(selectors.send);
+  const messages = pick(selectors.messages);
+  if (!input || !send) return;
+
+  let busy = false;
+  const scrollBottom = () => {
+    const box = messages || input.closest('.concierge-card,.concierge-box,.chat-card');
+    if (box) requestAnimationFrame(() => { box.scrollTop = box.scrollHeight; });
+  };
+
+  // Keep new/expanded messages visible.
+  if (messages && 'MutationObserver' in window) {
+    new MutationObserver(scrollBottom).observe(messages, {childList:true, subtree:true, characterData:true});
+  }
+
+  // Enter sends. Shift+Enter remains available for textarea.
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!busy && input.value.trim()) send.click();
+    }
+  });
+
+  // Observe network calls initiated by the existing app and show a thinking state.
+  const originalFetch = window.fetch;
+  window.fetch = async function(...args) {
+    const url = String(args[0] && args[0].url ? args[0].url : args[0] || '');
+    const isChat = url.includes('/api/chat');
+    let thinking;
+    if (isChat) {
+      busy = true;
+      send.disabled = true;
+      if (messages) {
+        thinking = document.createElement('div');
+        thinking.className = 'deck71-thinking';
+        thinking.textContent = 'Deck71 está pensando';
+        messages.appendChild(thinking);
+        scrollBottom();
+      }
+    }
+    try {
+      return await originalFetch.apply(this, args);
+    } finally {
+      if (isChat) {
+        busy = false;
+        send.disabled = false;
+        if (thinking) thinking.remove();
+        input.focus();
+        scrollBottom();
+      }
+    }
+  };
+
+  scrollBottom();
+})();
 </script>
 
 </body>
