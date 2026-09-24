@@ -1,17 +1,10 @@
-DECK71 — SITE v4 SCROLL
+DECK71 v4.1 — IMAGEM CORRIGIDA
 
-Versão criada a partir do layout aprovado:
-- site vertical e rolável;
-- menu superior com Soluções, Como funciona, Entrar e Começar agora;
-- imagem original das cartas no hero;
-- mensagem central;
-- Concierge funcional no topo;
-- cards A/K/Q/71 em pegada escura;
-- faixa de indicadores;
-- seção Como funciona;
-- rodapé/contato com e-mail, WhatsApp e LinkedIn;
-- pronta para upload na Vercel.
+A imagem das cartas foi incorporada diretamente no index.html.
+Assim ela não depende da pasta assets e não ficará quebrada no Vercel.
 
-ATENÇÃO:
-Os percentuais +50%, +30%, -70% e +100% foram mantidos como metas/referências visuais,
-não como resultados comprovados. Substitua por métricas reais quando houver evidência.
+ATUALIZAÇÃO:
+1. No GitHub, substitua o index.html antigo por este.
+2. Substitua/mantenha também vercel.json.
+3. Commit na main.
+4. Aguarde o novo deploy automático da Vercel.
