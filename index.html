@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Deck71 — agentes digitais trabalhando pelo seu negócio.">
+<title>Deck71 | Digital Agents</title>
+<style>
+:root{--bg:#080a0a;--panel:#111514;--panel2:#151918;--ink:#f3f1eb;--muted:#9ea39f;--orange:#ff6427;--line:#252b28}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit;text-decoration:none}.shell{max-width:1240px;margin:auto;padding:0 28px}
+nav{height:76px;display:flex;align-items:center;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(8,10,10,.92);backdrop-filter:blur(12px);z-index:30}
+.navin{display:flex;align-items:center;width:100%;gap:30px}.logo{font-size:27px;font-weight:950;letter-spacing:-1.5px}.logo b{color:var(--orange)}
+.navlinks{display:flex;gap:30px;margin:auto;color:#d5d7d4;font-size:14px}.nav-actions{display:flex;gap:10px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:10px;border:1px solid var(--line);font-weight:800;cursor:pointer;background:transparent;color:var(--ink)}.btn.hot{background:var(--orange);color:#111;border-color:var(--orange)}
+.hero{min-height:660px;display:grid;grid-template-columns:.86fr 1fr .94fr;gap:35px;align-items:center;padding:60px 0 72px}
+.visual{position:relative;min-height:440px;display:flex;align-items:center}.visual:before{content:"";position:absolute;width:500px;height:240px;left:-110px;background:radial-gradient(ellipse,rgba(255,100,39,.15),transparent 66%);filter:blur(10px)}
+.visual img{width:100%;max-width:460px;position:relative;z-index:1;filter:brightness(.84) saturate(.9)}
+.eyebrow{font-size:11px;letter-spacing:2.4px;font-weight:850;color:var(--orange);text-transform:uppercase}
+h1{font-size:54px;line-height:1.02;letter-spacing:-3px;margin:15px 0 23px}.orange{color:var(--orange)}.lead{color:#b8bbb7;line-height:1.65;font-size:17px}.hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.chat{background:#0d1110;border:1px solid rgba(255,100,39,.72);border-radius:18px;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.5)}.chathead{height:58px;padding:0 18px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line)}.dot{width:8px;height:8px;border-radius:50%;background:var(--orange)}.online{margin-left:auto;color:#b9bdb9;font-size:12px}.green{background:#16b995}
+.messages{height:245px;padding:17px;overflow:auto;display:flex;flex-direction:column;gap:10px}.msg{padding:11px 13px;border-radius:11px;line-height:1.45;font-size:13px;max-width:90%}.bot{background:#151b19;border:1px solid #202725}.me{background:var(--orange);color:#111;margin-left:auto}
+.quick{padding:0 17px 12px;display:grid;gap:7px}.quick button{width:100%;text-align:left;padding:10px 12px;background:#111615;color:#ddd;border:1px solid #262d2a;border-radius:9px;cursor:pointer}.composer{display:flex;gap:8px;padding:13px 17px 17px}.composer input{flex:1;background:#121716;border:1px solid #252c29;border-radius:9px;padding:12px;color:white;outline:none}.composer button{width:44px;border:0;border-radius:9px;background:var(--orange);font-weight:900;cursor:pointer}
+section{padding:88px 0;border-top:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:35px}.section-head h2{font-size:40px;letter-spacing:-2px;margin:8px 0}.section-head p{max-width:600px;color:var(--muted);line-height:1.65}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.agent{background:linear-gradient(180deg,#121615,#0d100f);border:1px solid #2a2f2d;border-radius:16px;padding:24px;min-height:260px;position:relative;overflow:hidden}.agent:after{content:"";position:absolute;inset:auto -60px -90px auto;width:180px;height:180px;border-radius:50%;background:rgba(255,100,39,.04);filter:blur(10px)}.agent .icon{width:56px;height:56px;border:1px solid rgba(255,100,39,.55);border-radius:10px;display:grid;place-items:center;color:var(--orange);font-size:34px;font-weight:900}.agent h3{font-size:21px;margin:18px 0 5px}.agent .short{color:#c2c5c1}.agent p{color:var(--muted);font-size:14px;line-height:1.6;margin-top:26px}.more{display:inline-block;color:var(--orange);font-weight:750;margin-top:8px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden}.metric{padding:28px 25px;min-height:120px;border-right:1px solid var(--line)}.metric:last-child{border:0}.metric strong{font-size:31px}.metric span{display:block;color:var(--muted);font-size:13px;margin-top:6px}.metric i{font-style:normal;color:var(--orange);font-size:23px;margin-right:10px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{padding:27px;border-top:1px solid #343a37;background:#0c0f0e}.step b{color:var(--orange);font-size:12px;letter-spacing:1.5px}.step h3{font-size:22px}.step p{color:var(--muted);line-height:1.6}
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:55px}.contact h2{font-size:42px;letter-spacing:-2px}.contact p{color:var(--muted);line-height:1.6}.contact-grid{display:grid;gap:12px}.contact-row{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px 18px}.contact-row small{display:block;color:var(--muted);margin-bottom:4px}.contact-row a{font-weight:750}
+footer{border-top:1px solid var(--line);padding:30px 0;color:#7f8581;font-size:12px}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:980px){.hero{grid-template-columns:1fr 1fr}.visual{grid-column:1/-1;min-height:260px;justify-content:center}.visual img{max-width:380px}.cards{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.metric:nth-child(2){border-right:0}.navlinks{display:none}}
+@media(max-width:680px){.hero{grid-template-columns:1fr}.visual{min-height:220px}.visual img{max-width:330px}h1{font-size:44px}.cards,.steps,.metrics,.contact{grid-template-columns:1fr}.metric{border-right:0;border-bottom:1px solid var(--line)}.nav-actions .btn:first-child{display:none}.section-head{display:block}}
+</style>
+</head>
+<body>
+<nav><div class="shell navin"><div class="logo">DECK<b>71</b></div><div class="navlinks"><a href="#solucoes">Soluções</a><a href="#como">Como funciona</a><a href="#metricas">Resultados</a><a href="#contato">Contato</a></div><div class="nav-actions"><a class="btn" href="#contato">Entrar</a><a class="btn hot" href="#concierge">Começar agora →</a></div></div></nav>
+
+<main class="shell">
+<header class="hero">
+ <div class="visual"><img src="assets/cartas-deck71.png" alt="Cartas Deck71: Reward, Sales e Orchestrator"></div>
+ <div>
+  <div class="eyebrow">Inteligência para resultados</div>
+  <h1>Uma equipe digital <span class="orange">trabalhando pelo</span> seu negócio.</h1>
+  <p class="lead">Com a inteligência da Deck71, você conecta estratégia, processos e execução em um só lugar. Agentes digitais que entendem, coordenam e ajudam a transformar objetivos em ação.</p>
+  <div class="hero-actions"><a class="btn hot" href="#solucoes">Ver soluções →</a><a class="btn" href="#como">Conhecer a Deck71</a></div>
+ </div>
+ <div class="chat" id="concierge">
+  <div class="chathead"><span class="dot"></span><b>Deck71 Concierge</b><span class="online"><span class="dot green" style="display:inline-block;margin-right:5px"></span>Online</span></div>
+  <div class="messages" id="messages"><div class="msg bot">Olá! Sou o Concierge da Deck71. Como posso ajudar o seu negócio hoje?</div></div>
+  <div class="quick">
+   <button onclick="quick('Quero atrair mais clientes')">Quero atrair mais clientes ›</button>
+   <button onclick="quick('Quero engajar minha equipe')">Quero engajar minha equipe ›</button>
+   <button onclick="quick('Quero automatizar processos')">Quero automatizar processos ›</button>
+  </div>
+  <div class="composer"><input id="chatInput" placeholder="Digite sua mensagem..." onkeydown="if(event.key==='Enter')send()"><button onclick="send()">➤</button></div>
+ </div>
+</header>
+
+<section id="solucoes">
+ <div class="section-head"><div><div class="eyebrow">Equipe Deck71</div><h2>Cada carta, uma especialidade.</h2></div><p>Uma estrutura de agentes digitais que pode evoluir por módulos. O cliente ativa as especialidades adequadas ao seu negócio.</p></div>
+ <div class="cards">
+  <article class="agent"><div class="icon">A</div><h3>Reward</h3><div class="short">Metas e reconhecimento.</div><p>Organiza metas, critérios, resultados e programas de reconhecimento com rastreabilidade.</p><a class="more" href="#contato">Saiba mais →</a></article>
+  <article class="agent"><div class="icon">K</div><h3>Sales</h3><div class="short">Objetivos e vendas.</div><p>Estrutura ações comerciais, abordagem, campanhas e follow-up para apoiar a conversão.</p><a class="more" href="#concierge">Saiba mais →</a></article>
+  <article class="agent"><div class="icon">Q</div><h3>Content</h3><div class="short">Conteúdo que gera valor.</div><p>Planeja e organiza conteúdo alinhado à estratégia, ao público e ao objetivo do negócio.</p><a class="more" href="#concierge">Saiba mais →</a></article>
+  <article class="agent"><div class="icon">71</div><h3>Orchestrator</h3><div class="short">Entende. Coordena. Aciona.</div><p>Conecta as especialidades e coordena o fluxo de trabalho conforme a missão definida.</p><a class="more" href="#como">Saiba mais →</a></article>
+ </div>
+</section>
+
+<section id="metricas">
+ <div class="section-head"><div><div class="eyebrow">Resultados que queremos gerar</div><h2>Indicadores para acompanhar valor.</h2></div><p>Os números abaixo são metas de referência visual da proposta e devem ser substituídos por resultados medidos conforme os primeiros clientes entrarem em operação.</p></div>
+ <div class="metrics">
+  <div class="metric"><i>◎</i><strong>+50%</strong><span>Engajamento de equipes</span></div>
+  <div class="metric"><i>▥</i><strong>+30%</strong><span>Conversão de vendas</span></div>
+  <div class="metric"><i>ϟ</i><strong>-70%</strong><span>Tempo em tarefas operacionais</span></div>
+  <div class="metric"><i>◉</i><strong>+100%</strong><span>Integração e visão de negócio</span></div>
+ </div>
+</section>
+
+<section id="como">
+ <div class="section-head"><div><div class="eyebrow">Como funciona</div><h2>Da conversa à execução.</h2></div><p>O Concierge é a porta de entrada. Ele entende a necessidade, organiza o contexto e direciona a conversa para a especialidade adequada.</p></div>
+ <div class="steps">
+  <div class="step"><b>01 · ENTENDER</b><h3>Conte o objetivo.</h3><p>O Concierge investiga contexto, resultado esperado e obstáculo principal sem transformar a conversa em um formulário.</p></div>
+  <div class="step"><b>02 · DIRECIONAR</b><h3>Ative a especialidade.</h3><p>A Deck71 identifica qual agente ou combinação de agentes faz sentido para aquela missão.</p></div>
+  <div class="step"><b>03 · ACOMPANHAR</b><h3>Transforme em trabalho.</h3><p>A evolução da plataforma conecta execução, histórico, dados e acompanhamento em uma experiência única.</p></div>
+ </div>
+</section>
+
+<section id="contato">
+ <div class="contact">
+  <div><div class="eyebrow">Entre em contato</div><h2>Vamos conversar sobre o seu negócio.</h2><p>Use um dos canais ao lado ou comece pelo Concierge. A Deck71 foi desenhada para entender primeiro e propor depois.</p><a class="btn hot" href="https://wa.me/5562981410308" target="_blank">Falar comigo →</a></div>
+  <div class="contact-grid">
+   <div class="contact-row"><small>E-mail</small><a href="mailto:robson.amorim.ti@hotmail.com">robson.amorim.ti@hotmail.com</a></div>
+   <div class="contact-row"><small>WhatsApp</small><a href="https://wa.me/5562981410308" target="_blank">(62) 98141-0308</a></div>
+   <div class="contact-row"><small>LinkedIn</small><a href="https://www.linkedin.com/in/robson-amorim-91b2b9280" target="_blank">linkedin.com/in/robson-amorim-91b2b9280</a></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer><div class="shell foot"><span>© 2026 Deck71. Todos os direitos reservados.</span><span>Digital Agents for Business</span></div></footer>
+
+<script>
+const state={step:0};
+function add(t,c){const d=document.createElement('div');d.className='msg '+c;d.textContent=t;messages.appendChild(d);messages.scrollTop=messages.scrollHeight}
+function reply(t){const x=t.toLowerCase();
+ if(state.step===0){state.step=1;if(/venda|cliente|fatur|atrair/.test(x))return'Entendi. O foco é comercial. O que sua empresa vende hoje?';if(/equipe|meta|prem|engaj/.test(x))return'Isso pode envolver a Carta A · Reward. Como vocês acompanham metas e reconhecimento hoje?';if(/automat|processo|sistema/.test(x))return'Entendi. Qual processo hoje consome mais tempo ou depende de trabalho manual?';return'Entendi. Qual resultado concreto você quer alcançar?'}
+ if(state.step===1){state.step=2;return'Certo. Qual é hoje o principal obstáculo para chegar nesse resultado?'}
+ if(state.step===2){state.step=3;return'Já tenho um contexto inicial. Posso continuar o diagnóstico e direcionar essa necessidade para a especialidade adequada da Deck71.'}
+ return'Vamos continuar a partir do que você já contou. Qual parte é mais urgente agora?'}
+function send(){const i=document.getElementById('chatInput');const t=i.value.trim();if(!t)return;add(t,'me');i.value='';setTimeout(()=>add(reply(t),'bot'),220)}
+function quick(t){add(t,'me');setTimeout(()=>add(reply(t),'bot'),220)}
+</script>
+</body></html>
